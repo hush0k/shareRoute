@@ -1,0 +1,78 @@
+@startuml
+entity Achievement {
+  * id : UUID <<PK>>
+  --
+  level : int
+  condition : int
+  exp : int
+  img : String
+}
+
+entity AchievementTranslation {
+  * id : UUID <<PK>>
+  --
+  achievement_id : UUID <<FK>>
+  language_code : Language
+  name : String
+  description : String
+}
+
+
+entity UserAchievement {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  achievement_id : UUID <<FK>>
+  completed_num : int
+  is_achieved : boolean
+  achieved_at : Instant
+}
+
+entity Rank {
+  * id : int <<PK>>
+  --
+  exp : int
+  img : String
+}
+
+entity RankTranslation {
+  * id : int <<PK>>
+  --
+  rank_id : int <<FK>>
+  language_code : Language
+  name : String
+}
+
+entity Archetype {
+  * id : int <<PK>>
+  --
+  img : String
+  description : String
+}
+
+entity ArchetypeTranslation {
+  * id : int <<PK>>
+  --
+  archetype_id : int <<FK>>
+  name : String
+  language_code : Language
+}
+
+entity UserArchetype {
+  * id : int <<PK>>
+  --
+  archetype_id : int <<FK>>
+  user_id : UUID
+  is_owned : boolean
+  --
+  discovered_at : Instant
+  unlocked_at : Instant
+}
+
+Achievement ||--o{ UserAchievement
+Rank ||--o{ RankTranslation
+Archetype ||--o{ ArchetypeTranslation
+Archetype ||--o{ UserArchetype
+Achievement ||--o{ AchievementTranslation
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+entity Route {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  name : String
+  days : int
+  description : String
+  country_from_id : int
+  city_from_id : int
+  country_to_id : int
+  city_to_id : int
+  date_of_trip : Date
+  path : String
+  hotel : String
+  count_of_people : int
+  expenditure_to_food : int
+  expenditure_to_transportation : int
+  expenditure_to_accommodation : int
+  expenditure_to_entertainment : int
+  expenditure_to_others : int
+  total_expenditure : int
+}
+
+entity UserRatingRoute {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  route_id : UUID <<FK>>
+  comment : String
+  transportation_rating : int
+  food_rating : int
+  accommodation_rating : int
+  place_rating : int
+  entertainment_rating : int
+  exp: int
+}
+
+entity SavedRoute {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  route_id : UUID <<FK>>
+}
+
+Route ||--o{ UserRatingRoute
+Route ||--o{ SavedRoute
+@enduml

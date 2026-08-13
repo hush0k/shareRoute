@@ -1,0 +1,30 @@
+@startuml
+entity User {
+  * id : UUID <<PK>>
+  --
+  country_id : int
+  city_id : int
+  rank_id : int
+  nickname : String
+  email : String
+  first_name : String
+  last_name : String
+  date_of_birth : Date
+  avatar : String
+  description : String
+  exp : int
+  language : Language
+  --
+  created_at : Instant
+  updated_at : Instant
+}
+
+entity Followers {
+  * id : UUID <<PK>>
+  --
+  follower_id : UUID <<FK>>
+  following_id : UUID <<FK>>
+}
+
+User ||--o{ Followers
+@enduml

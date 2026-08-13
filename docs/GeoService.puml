@@ -1,0 +1,39 @@
+@startuml
+entity Country {
+  * id : int <<PK>>
+  --
+  iso_code : String
+  phone_code : String
+  currency : String
+}
+
+entity CountryTranslation {
+  * id : int <<PK>>
+  --
+  country_id : int <<FK>>
+  language_code : Language
+  name : String
+}
+
+entity City {
+  * id : int <<PK>>
+  --
+  country_id : int <<FK>>
+  original_name : String
+  latitude : Double
+  longitude : Double
+  timezone : String
+}
+
+entity CityTranslation {
+  * id : int <<PK>>
+  --
+  city_id : int <<FK>>
+  language_code : Language
+  name : String
+}
+
+Country ||--o{ City
+City ||--o{ CityTranslation
+Country ||--o{ CountryTranslation
+@enduml

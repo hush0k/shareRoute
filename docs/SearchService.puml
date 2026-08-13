@@ -1,0 +1,19 @@
+@startuml
+entity SearchIndex {
+  * id : UUID <<PK>>
+  --
+  entity_type : SearchableType
+  entity_id : UUID
+  title : String
+  content : String
+  tags : String
+  --
+  indexed_at : Instant
+}
+
+enum SearchableType {
+  USER
+  POST
+  ROUTE
+}
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+entity Conversation {
+  * id : UUID <<PK>>
+  --
+  is_group : boolean
+  --
+  created_at : Instant
+}
+
+entity ConversationParticipant {
+  * id : UUID <<PK>>
+  --
+  conversation_id : UUID <<FK>>
+  user_id : UUID
+  joined_at : Instant
+}
+
+entity Message {
+  * id : UUID <<PK>>
+  --
+  conversation_id : UUID <<FK>>
+  sender_id : UUID
+  content : String
+  is_read : boolean
+  --
+  created_at : Instant
+}
+
+Conversation ||--o{ ConversationParticipant
+Conversation ||--o{ Message
+@enduml

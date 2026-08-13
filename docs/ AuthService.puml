@@ -1,0 +1,45 @@
+@startuml
+entity Credentials {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  email : String
+  password_hash : String
+  role : Role
+  is_email_verified : boolean
+  is_blocked : boolean
+  --
+  created_at : Instant
+  updated_at : Instant
+}
+
+entity RefreshToken {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  token_hash : String
+  device_info : String
+  expires_at : Instant
+  is_revoked : boolean
+  --
+  created_at : Instant
+}
+
+entity LoginAttempt {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  ip_address : String
+  is_successful : boolean
+  --
+  attempted_at : Instant
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+Credentials ||--o{ RefreshToken
+@enduml

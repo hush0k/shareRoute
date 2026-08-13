@@ -1,0 +1,38 @@
+@startuml
+entity Report {
+  * id : UUID <<PK>>
+  --
+  reporter_id : UUID
+  reportable_type : ReportableType
+  reportable_id : UUID
+  reason : ReportReason
+  description : String
+  status : ReportStatus
+  reviewed_by : UUID
+  --
+  created_at : Instant
+  reviewed_at : Instant
+}
+
+enum ReportableType {
+  POST
+  COMMENT
+  USER
+  ROUTE
+}
+
+enum ReportReason {
+  SPAM
+  HARASSMENT
+  INAPPROPRIATE_CONTENT
+  FAKE_INFORMATION
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  ACTION_TAKEN
+  DISMISSED
+}
+@enduml

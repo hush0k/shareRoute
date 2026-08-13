@@ -1,0 +1,12 @@
+@startuml
+entity FeedItem {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  post_id : UUID
+  author_id : UUID
+  score : Double
+  --
+  created_at : Instant
+}
+@enduml

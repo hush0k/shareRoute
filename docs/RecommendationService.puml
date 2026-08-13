@@ -1,0 +1,30 @@
+@startuml
+entity UserPreference {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  archetype_id : int
+  preferred_country_id : int
+  weight : Double
+  --
+  updated_at : Instant
+}
+
+entity RecommendationLog {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  recommendable_type : RecommendableType
+  recommendable_id : UUID
+  score : Double
+  is_clicked : boolean
+  --
+  shown_at : Instant
+}
+
+enum RecommendableType {
+  ROUTE
+  POST
+  USER
+}
+@enduml

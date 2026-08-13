@@ -1,0 +1,19 @@
+@startuml
+entity PostView {
+  * id : UUID <<PK>>
+  --
+  post_id : UUID
+  viewer_id : UUID
+  --
+  viewed_at : Instant
+}
+
+entity RouteView {
+  * id : UUID <<PK>>
+  --
+  route_id : UUID
+  viewer_id : UUID
+  --
+  viewed_at : Instant
+}
+@enduml

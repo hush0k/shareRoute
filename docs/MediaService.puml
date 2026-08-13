@@ -1,0 +1,24 @@
+@startuml
+entity Media {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  mediable_type : MediableType
+  mediable_id : UUID
+  type : MediaType
+  url : String
+  order : int
+  --
+  created_at : Instant
+}
+
+enum MediableType {
+  POST
+  ROUTE
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+}
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+entity Like {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  likeable_type : LikeableType
+  likeable_id : UUID
+  --
+  created_at : Instant
+}
+
+enum LikeableType {
+  POST
+  COMMENT
+  ROUTE
+}
+@enduml

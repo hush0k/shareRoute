@@ -1,0 +1,21 @@
+@startuml
+entity Comment {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  commentable_type : CommentableType
+  commentable_id : UUID
+  parent_comment_id : UUID <<FK>>
+  content : String
+  --
+  created_at : Instant
+  updated_at : Instant
+}
+
+enum CommentableType {
+  POST
+  ROUTE
+}
+
+Comment ||--o{ Comment
+@enduml

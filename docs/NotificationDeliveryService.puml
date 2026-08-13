@@ -1,0 +1,25 @@
+@startuml
+entity EmailQueue {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  email : String
+  template : EmailTemplate
+  status : DeliveryStatus
+  --
+  created_at : Instant
+  sent_at : Instant
+}
+
+enum EmailTemplate {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  WEEKLY_DIGEST
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+}
+@enduml

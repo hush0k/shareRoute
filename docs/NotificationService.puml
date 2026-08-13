@@ -1,0 +1,31 @@
+@startuml
+entity Notification {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  actor_id : UUID
+  type : NotificationType
+  entity_type : NotifiableType
+  entity_id : UUID
+  is_read : boolean
+  --
+  created_at : Instant
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  ACHIEVEMENT_UNLOCKED
+  RANK_UP
+  ROUTE_RATED
+}
+
+enum NotifiableType {
+  POST
+  COMMENT
+  ROUTE
+  USER
+  ACHIEVEMENT
+}
+@enduml

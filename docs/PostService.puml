@@ -1,0 +1,15 @@
+@startuml
+entity Post {
+  * id : UUID <<PK>>
+  --
+  user_id : UUID
+  city_id : int
+  country_id : int
+  content : String
+  shared_count : int
+  exp: int
+  --
+  created_at : Instant
+  updated_at : Instant
+}
+@enduml
