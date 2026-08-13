@@ -87,6 +87,7 @@ public class GlobalExceptionHandler {
         ));
     }
 
+
     @ExceptionHandler(UserNotFoundByNicknameException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundByNicknameException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
