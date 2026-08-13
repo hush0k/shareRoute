@@ -10,7 +10,7 @@ import java.util.Locale;
 
 /**
  * Определяет язык ответа (сообщения валидации, ошибки) по заголовку Accept-Language.
- * Поддерживаются kk (қазақша) и en (English), по умолчанию — en.
+ * Поддерживаются kk (қазақша), en (English) и ru (русский), по умолчанию — en.
  */
 @Configuration
 public class LocaleConfig {
@@ -19,7 +19,7 @@ public class LocaleConfig {
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
         resolver.setDefaultLocale(Locale.ENGLISH);
-        resolver.setSupportedLocales(List.of(Locale.ENGLISH, new Locale("kk")));
+        resolver.setSupportedLocales(List.of(Locale.ENGLISH, new Locale("kk"), new Locale("ru")));
         return resolver;
     }
 }
