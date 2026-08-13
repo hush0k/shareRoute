@@ -37,10 +37,11 @@ public class FollowersService {
             log.info("Followers with id: {} try to follow themselves", dto.followerId());
             throw new UserFollowThemselvesException(dto.followerId());
         }
-        UserModel follower = userService.getUserById(dto.followerId());
-        UserModel following = userService.getUserById(dto.followingId());
+        UserBriefDto follower = userService.getUserById(dto.followerId());
+        UserBriefDto following = userService.getUserById(dto.followingId());
 
-        boolean alreadyFollowing = followersRepository.existsByFollowerIdAndFollowingId(follower.getId(), following.getId());
+        boolean alreadyFollowing = followersRepository.existsByFollowerIdAndFollowingId(follower.id(),
+                following.id());
         if (alreadyFollowing) {
             log.info("User {} is already following user {}", dto.followerId(), dto.followingId());
             throw new UserAlreadyFollowUserException(dto.followerId(), dto.followingId());

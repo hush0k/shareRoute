@@ -4,6 +4,7 @@ import com.hush0k.shareRoute.user.UserBriefDto;
 import com.hush0k.shareRoute.user.UserLookupPort;
 import com.hush0k.shareRoute.user.internal.UserMapper;
 import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.dto.response.UserResponseDto;
 import com.hush0k.shareRoute.user.internal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,19 @@ public class UserLookupService implements UserLookupPort {
     }
 
     @Override
-    public UserModel getUserById(UUID  userId) {
-        return userService.getUserById(userId);
+    public UserBriefDto getUserById(UUID  userId) {
+        UserModel user = userService.getUserById(userId);
+        return userMapper.toUserBriefDto(user);
     }
 
     @Override
-    public Optional<UserModel> getUserByEmail(String email) {
-        return userService.getUserByEmailWithoutException(email);
+    public boolean isEmailExists(String email) {
+        return userService.getUserByEmailWithoutException(email).isPresent();
     }
 
     @Override
-    public UserModel getUserByNickname(String email) {
-        return userMapper.toUserModel(userService.getUserByNickname(email));
+    public UUID getUserIdByNickname(String nickname) {
+        UserResponseDto user = userService.getUserByNickname(nickname);
+        return user.id();
     }
 }

@@ -1,5 +1,7 @@
 package com.hush0k.shareRoute.user;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 public record UserBriefDto(
