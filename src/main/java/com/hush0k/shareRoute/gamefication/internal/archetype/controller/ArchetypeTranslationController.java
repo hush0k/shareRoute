@@ -4,7 +4,7 @@ import com.hush0k.shareRoute.common.exception.ErrorResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationUpdateDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.TranslationResponseDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.ArchetypeModelNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.repository.ArchetypeRepository;
@@ -53,33 +53,36 @@ public class ArchetypeTranslationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping("/{translationId}")
+    @PatchMapping("/api/archetypes/{archetypeId}/translations/{languageCode}")
     @Operation(summary = "Update a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<TranslationResponseDto> updateTranslation(
-            @PathVariable Long translationId,
+            @PathVariable Long archetypeId,
+            @PathVariable String languageCode,
             @Valid @RequestBody TranslationUpdateDto dto) {
-        return ResponseEntity.ok(archetypeTranslationService.updateTranslation(dto, translationId));
+        return ResponseEntity.ok(archetypeTranslationService.updateTranslation(dto, archetypeId, languageCode));
     }
 
-    @DeleteMapping("/{translationId}")
+    @DeleteMapping("/api/archetypes/{archetypeId}/translations/{languageCode}")
     @Operation(summary = "Delete a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<Void> deleteTranslation(
-            @PathVariable Long translationId) {
-        archetypeTranslationService.deleteTranslation(translationId);
+            @PathVariable Long archetypeId,
+            @PathVariable String languageCode) {
+        archetypeTranslationService.deleteTranslation(archetypeId, languageCode);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{translationId}")
-    @Operation(summary = "Get a translation by id")
+    @GetMapping("/api/archetypes/{archetypeId}/translations/{languageCode}")
+    @Operation(summary = "Get a translation by archetype id and language code")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<TranslationResponseDto> getTranslation(
-            @PathVariable Long translationId) {
-        return ResponseEntity.ok(archetypeTranslationService.getTranslationById(translationId));
+            @PathVariable Long archetypeId,
+            @PathVariable String languageCode) {
+        return ResponseEntity.ok(archetypeTranslationService.getTranslation(archetypeId, languageCode));
     }
 
     @GetMapping("/by-language")

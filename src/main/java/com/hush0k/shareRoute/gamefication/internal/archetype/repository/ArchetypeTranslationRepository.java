@@ -34,6 +34,14 @@ public interface ArchetypeTranslationRepository extends JpaRepository<ArchetypeT
     );
     Optional<ArchetypeModel> findByName(String name);
 
+    @Query("select t from ArchetypeTranslationModel t " +
+            "join fetch t.archetype " +
+            "where t.archetype.id = :archId and t.languageCode = :lang")
+    Optional<ArchetypeTranslationModel> findByArchetypeIdAndLanguageCode(
+            @Param("archId") Long archetypeId,
+            @Param("lang") String languageCode
+    );
+
 
 
 }

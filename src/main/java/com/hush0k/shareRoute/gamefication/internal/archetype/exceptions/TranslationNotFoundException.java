@@ -6,4 +6,8 @@ public class TranslationNotFoundException extends MessageKeyException {
     public TranslationNotFoundException(Long translationId) {
         super("archetype.translation.notFound", translationId);
     }
+
+    public TranslationNotFoundException(Long archetypeId, String languageCode) {
+        super("archetype.translation.notFoundByArchetypeAndLanguage", archetypeId, languageCode);
+    }
 }

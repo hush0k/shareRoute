@@ -1,4 +1,4 @@
-package com.hush0k.shareRoute.gamefication.internal.archetype.dto.response;
+package com.hush0k.shareRoute.common.global_dto;
 
 import org.springframework.data.domain.Page;
 

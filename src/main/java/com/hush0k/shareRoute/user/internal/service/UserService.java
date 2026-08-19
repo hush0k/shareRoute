@@ -5,7 +5,7 @@ import com.hush0k.shareRoute.user.internal.domain.UserModel;
 import com.hush0k.shareRoute.user.internal.dto.request.UserBootstrapDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserCreateDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserUpdateDto;
-import com.hush0k.shareRoute.user.internal.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.user.internal.dto.response.UserResponseDto;
 import com.hush0k.shareRoute.user.internal.exception.UserNotFoundByEmail;
 import com.hush0k.shareRoute.user.internal.exception.UserNotFoundByNicknameException;

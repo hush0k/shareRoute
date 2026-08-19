@@ -5,6 +5,8 @@ import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
 import com.hush0k.shareRoute.followers.internal.exception.UserAlreadyFollowUserException;
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.NotPublishedArchetypeException;
+import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankNotFoundException;
+import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankTranslationNotFoundException;
 import com.hush0k.shareRoute.user.internal.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
@@ -203,6 +205,30 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 "ARCHETYPE_NOT_PUBLISHED",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(RankNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRankNotFound(RankNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "RANK_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(RankTranslationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRankTranslationNotFound(RankTranslationNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "RANK_TRANSLATION_NOT_FOUND",
                 resolve(ex),
                 Instant.now(),
                 request.getRequestURI(),

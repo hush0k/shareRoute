@@ -19,7 +19,7 @@ public class RankTranslation {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rankId", nullable = false)
+    @JoinColumn(name = "rank_id", nullable = false)
     private Rank rank;
 
     @Column(name = "language_code")

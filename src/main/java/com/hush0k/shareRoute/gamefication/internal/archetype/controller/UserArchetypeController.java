@@ -4,7 +4,7 @@ import com.hush0k.shareRoute.auth.CurrentUser;
 import com.hush0k.shareRoute.common.exception.ErrorResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.UserArchetypeCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.UserArchetypeUpdateDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.UserArchetypeResponseDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.repository.ArchetypeRepository;
 import com.hush0k.shareRoute.gamefication.internal.archetype.service.UserArchetypeService;

@@ -4,7 +4,7 @@ import com.hush0k.shareRoute.common.exception.ErrorResponse;
 import com.hush0k.shareRoute.user.internal.domain.UserModel;
 import com.hush0k.shareRoute.user.internal.dto.request.UserCreateDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserUpdateDto;
-import com.hush0k.shareRoute.user.internal.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.user.internal.dto.response.UserResponseDto;
 import com.hush0k.shareRoute.user.internal.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

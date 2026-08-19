@@ -2,7 +2,7 @@ package com.hush0k.shareRoute.gamefication.internal.archetype.service;
 
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelUpdateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationCreateDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.enums.ArchetypeState;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.ArchetypeModelNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.mapper.ArchetypeModelMapper;

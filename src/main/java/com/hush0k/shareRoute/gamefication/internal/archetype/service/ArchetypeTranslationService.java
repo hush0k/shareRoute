@@ -3,7 +3,7 @@ package com.hush0k.shareRoute.gamefication.internal.archetype.service;
 import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeTranslationModel;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationUpdateDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.TranslationResponseDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.TranslationNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.mapper.TranslationMapper;
@@ -30,22 +30,22 @@ public class ArchetypeTranslationService {
         ArchetypeTranslationModel newTranslation = translationRepository.save(translationMapper.toArchetypeTranslationModel(dto));
     }
 
-    public TranslationResponseDto updateTranslation(TranslationUpdateDto dto, Long translationId) {
-        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(translationId);
+    public TranslationResponseDto updateTranslation(TranslationUpdateDto dto, Long archetypeId, String languageCode) {
+        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(archetypeId, languageCode);
         translationMapper.updateTranslation(dto, archetypeTranslationModel);
 
         ArchetypeTranslationModel updatedTranslation = translationRepository.save(archetypeTranslationModel);
         return translationMapper.toTranslationResponseDto(updatedTranslation);
     }
 
-    public void deleteTranslation(Long translationId) {
-        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(translationId);
+    public void deleteTranslation(Long archetypeId, String languageCode) {
+        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(archetypeId, languageCode);
         translationRepository.delete(archetypeTranslationModel);
     }
 
     @Transactional(readOnly = true)
-    public TranslationResponseDto getTranslationById(Long translationId) {
-        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(translationId);
+    public TranslationResponseDto getTranslation(Long archetypeId, String languageCode) {
+        ArchetypeTranslationModel archetypeTranslationModel = getArchetypeTranslationModel(archetypeId, languageCode);
         return translationMapper.toTranslationResponseDto(archetypeTranslationModel);
     }
 
@@ -69,12 +69,12 @@ public class ArchetypeTranslationService {
         return translationRepository.findAllByArchetypeIdInAndLanguageCode(archetypeIds, language);
     }
 
-    private ArchetypeTranslationModel getArchetypeTranslationModel(Long translationId) {
-        return translationRepository.findById(translationId)
+    private ArchetypeTranslationModel getArchetypeTranslationModel(Long archetypeId, String languageCode) {
+        return translationRepository.findByArchetypeIdAndLanguageCode(archetypeId, languageCode)
                 .orElseThrow(
                         () -> {
-                            log.warn("Could not find translation with id {}", translationId);
-                            return new TranslationNotFoundException(translationId);
+                            log.warn("Could not find translation for archetype {} and language {}", archetypeId, languageCode);
+                            return new TranslationNotFoundException(archetypeId, languageCode);
                         }
                 );
     }

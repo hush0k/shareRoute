@@ -4,7 +4,7 @@ import com.hush0k.shareRoute.common.exception.ErrorResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelCreate;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelUpdateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.ArchetypeModelResponse;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.PageResponse;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.service.ArchetypeModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
