@@ -1,0 +1,15 @@
+package com.hush0k.shareRoute.gamefication.internal.dto.request;
+
+import jakarta.validation.constraints.Size;
+
+public record ArchetypeModelCreate(
+
+        String image,
+
+        @Size(min=3, max=800)
+        String engDescription,
+
+        @Size(min=3, max=200)
+        String engName
+
+) {}

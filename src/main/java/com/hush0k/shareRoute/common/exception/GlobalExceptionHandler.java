@@ -4,10 +4,12 @@ import com.hush0k.shareRoute.auth.internal.exception.NotMatchPasswordsException;
 import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
 import com.hush0k.shareRoute.followers.internal.exception.UserAlreadyFollowUserException;
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
+import com.hush0k.shareRoute.gamefication.internal.exceptions.NotPublishedArchetypeException;
 import com.hush0k.shareRoute.user.internal.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -46,6 +48,18 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 request.getRequestURI(),
                 details
+        ));
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ErrorResponse> handlePropertyReference(PropertyReferenceException ex, HttpServletRequest request) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "INVALID_SORT_PROPERTY",
+                "Invalid sort property: " + ex.getPropertyName(),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
         ));
     }
 
@@ -177,6 +191,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "PASSWORDS_DO_NOT_MATCH",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(NotPublishedArchetypeException.class)
+    public ResponseEntity<ErrorResponse> handleNotPublishedArchetype(NotPublishedArchetypeException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                "ARCHETYPE_NOT_PUBLISHED",
                 resolve(ex),
                 Instant.now(),
                 request.getRequestURI(),

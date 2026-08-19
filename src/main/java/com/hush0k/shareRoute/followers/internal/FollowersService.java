@@ -5,7 +5,6 @@ import com.hush0k.shareRoute.followers.internal.dto.response.UserBriefWithFollow
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
 import com.hush0k.shareRoute.user.UserBriefDto;
 import com.hush0k.shareRoute.user.UserLookupPort;
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
 import com.hush0k.shareRoute.followers.internal.dto.request.FollowersCreateDto;
 import com.hush0k.shareRoute.followers.internal.dto.response.FollowersListDto;
 import com.hush0k.shareRoute.followers.internal.dto.response.FollowersResponseDto;

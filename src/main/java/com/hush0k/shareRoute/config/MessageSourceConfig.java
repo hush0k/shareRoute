@@ -15,7 +15,8 @@ public class MessageSourceConfig {
         source.setBasenames(
                 "classpath:messages/user-messages",
                 "classpath:messages/followers-messages",
-                "classpath:messages/auth-messages"
+                "classpath:messages/auth-messages",
+                "classpath:messages/gamefication-messages"
                 // сюда будешь добавлять по мере появления модулей:
                 // "classpath:messages/post-messages",
                 // "classpath:messages/route-messages"

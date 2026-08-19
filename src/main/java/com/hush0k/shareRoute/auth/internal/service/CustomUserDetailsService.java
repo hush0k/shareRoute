@@ -27,6 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(credentials);
     }
 
+    public CustomUserDetails loadUserById(UUID userId) {
+        Credentials credentials = credentialsRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Credentials not found for id: " + userId));
+        return new CustomUserDetails(credentials);
+    }
+
     private boolean isEmail(String identifier) {
         return identifier.contains("@");
     }

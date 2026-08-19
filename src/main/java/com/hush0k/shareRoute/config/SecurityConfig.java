@@ -1,6 +1,7 @@
 package com.hush0k.shareRoute.config;
 
 import com.hush0k.shareRoute.auth.internal.service.CustomUserDetailsService;
+import com.hush0k.shareRoute.auth.internal.service.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,8 +45,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/refresh").permitAll()
-                        .anyRequest().authenticated()
+                        // TODO: security temporarily disabled for local dev, re-enable before merging!
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
