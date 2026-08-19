@@ -1,11 +1,11 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.controller;
 
 import com.hush0k.shareRoute.common.exception.ErrorResponse;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelCreate;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelUpdateDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.ArchetypeModelResponse;
+import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeCreate;
+import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeUpdateDto;
+import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.ArchetypeResponse;
 import com.hush0k.shareRoute.common.global_dto.PageResponse;
-import com.hush0k.shareRoute.gamefication.internal.archetype.service.ArchetypeModelService;
+import com.hush0k.shareRoute.gamefication.internal.archetype.service.ArchetypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/archetypes")
 @RequiredArgsConstructor
 @Tag(name = "Archetypes", description = "Archetype models management")
-public class ArchetypeModelController {
+public class ArchetypeController {
 
-    private final ArchetypeModelService archetypeModelService;
+    private final ArchetypeService archetypeService;
 
     @PostMapping
     @Operation(summary = "Create an archetype model")
-    public ResponseEntity<ArchetypeModelResponse> createArchetypeModel(@Valid @RequestBody ArchetypeModelCreate dto) {
-        ArchetypeModelResponse created = archetypeModelService.createArchetypeModel(dto);
+    public ResponseEntity<ArchetypeResponse> createArchetype(@Valid @RequestBody ArchetypeCreate dto) {
+        ArchetypeResponse created = archetypeService.createArchetype(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -37,18 +37,18 @@ public class ArchetypeModelController {
     @Operation(summary = "Update an archetype model")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<ArchetypeModelResponse> updateArchetypeModel(
+    public ResponseEntity<ArchetypeResponse> updateArchetype(
             @PathVariable Long archetypeId,
-            @Valid @RequestBody ArchetypeModelUpdateDto dto) {
-        return ResponseEntity.ok(archetypeModelService.updateArchetypeModel(dto, archetypeId));
+            @Valid @RequestBody ArchetypeUpdateDto dto) {
+        return ResponseEntity.ok(archetypeService.updateArchetype(dto, archetypeId));
     }
 
     @DeleteMapping("/{archetypeId}")
     @Operation(summary = "Delete an archetype model")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<Void> deleteArchetypeModel(@PathVariable Long archetypeId) {
-        archetypeModelService.deleteArchetypeModel(archetypeId);
+    public ResponseEntity<Void> deleteArchetype(@PathVariable Long archetypeId) {
+        archetypeService.deleteArchetype(archetypeId);
         return ResponseEntity.noContent().build();
     }
 
@@ -56,21 +56,21 @@ public class ArchetypeModelController {
     @Operation(summary = "Get an archetype model by id")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<ArchetypeModelResponse> getArchetypeModel(@PathVariable Long archetypeId) {
-        return ResponseEntity.ok(archetypeModelService.getArchetypeModelById(archetypeId));
+    public ResponseEntity<ArchetypeResponse> getArchetypeOrThrow(@PathVariable Long archetypeId) {
+        return ResponseEntity.ok(archetypeService.getArchetypeById(archetypeId));
     }
 
     @GetMapping
     @Operation(summary = "Get all archetype models")
-    public ResponseEntity<PageResponse<ArchetypeModelResponse>> getArchetypeModels(Pageable pageable) {
-        return ResponseEntity.ok(archetypeModelService.getArchetypeModels(pageable));
+    public ResponseEntity<PageResponse<ArchetypeResponse>> getArchetypes(Pageable pageable) {
+        return ResponseEntity.ok(archetypeService.getArchetypes(pageable));
     }
 
     @PatchMapping("/{archetypeId}/publish")
     @Operation(summary = "Change state of archetype to Publish")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<ArchetypeModelResponse> publishArchetypeModel(@PathVariable Long archetypeId){
-        return ResponseEntity.ok(archetypeModelService.publish(archetypeId));
+    public ResponseEntity<ArchetypeResponse> publishArchetype(@PathVariable Long archetypeId){
+        return ResponseEntity.ok(archetypeService.publish(archetypeId));
     }
 }

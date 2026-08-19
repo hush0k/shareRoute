@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.repository;
 
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeTranslationModel;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.Archetype;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeTranslation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,31 +13,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ArchetypeTranslationRepository extends JpaRepository<ArchetypeTranslationModel, Long> {
-    @Query("select t from ArchetypeTranslationModel t " +
+public interface ArchetypeTranslationRepository extends JpaRepository<ArchetypeTranslation, Long> {
+    @Query("select t from ArchetypeTranslation t " +
             "join fetch t.archetype " +
             "where t.languageCode = :lang")
-    Page<ArchetypeTranslationModel> findAllByLang(@Param("lang") String lang, Pageable pageable);
+    Page<ArchetypeTranslation> findAllByLang(@Param("lang") String lang, Pageable pageable);
 
-    @Query("select t from ArchetypeTranslationModel t " +
+    @Query("select t from ArchetypeTranslation t " +
             "join fetch t.archetype " +
             "where t.archetype.id = :archId")
-    Page<ArchetypeTranslationModel> findAllByArchId(@Param("archId") Long archetypeId, Pageable pageable);
+    Page<ArchetypeTranslation> findAllByArchId(@Param("archId") Long archetypeId, Pageable pageable);
 
-    @Query("select t from ArchetypeTranslationModel t " +
+    @Query("select t from ArchetypeTranslation t " +
             "join fetch t.archetype " +
             "where t.archetype.id in :archetypeIds " +
             "and t.languageCode = :languageCode")
-    List<ArchetypeTranslationModel> findAllByArchetypeIdInAndLanguageCode(
+    List<ArchetypeTranslation> findAllByArchetypeIdInAndLanguageCode(
             @Param("archetypeIds") List<Long> archetypeIds,
             @Param("languageCode") String languageCode
     );
-    Optional<ArchetypeModel> findByName(String name);
+    Optional<Archetype> findByName(String name);
 
-    @Query("select t from ArchetypeTranslationModel t " +
+    @Query("select t from ArchetypeTranslation t " +
             "join fetch t.archetype " +
             "where t.archetype.id = :archId and t.languageCode = :lang")
-    Optional<ArchetypeTranslationModel> findByArchetypeIdAndLanguageCode(
+    Optional<ArchetypeTranslation> findByArchetypeIdAndLanguageCode(
             @Param("archId") Long archetypeId,
             @Param("lang") String languageCode
     );

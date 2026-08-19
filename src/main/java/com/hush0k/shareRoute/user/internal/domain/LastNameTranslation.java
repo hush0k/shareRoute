@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LastNameTranslationModel {
+public class LastNameTranslation {
     @Id
     private Integer id;
 

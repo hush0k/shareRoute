@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class UserModel {
+public class User {
 
     @Id
     @EqualsAndHashCode.Include

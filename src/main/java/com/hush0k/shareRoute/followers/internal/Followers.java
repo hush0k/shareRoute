@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class FollowersModel {
+public class Followers {
 
     @Id
     @EqualsAndHashCode.Include

@@ -23,7 +23,7 @@ public class UserArchetype {
 
     @ManyToOne
     @JoinColumn(name = "archetype_id", nullable = false)
-    private ArchetypeModel archetype;
+    private Archetype archetype;
 
     @Column(name = "user_id")
     private UUID userId;

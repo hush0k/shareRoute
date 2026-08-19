@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.user.internal;
 
 import com.hush0k.shareRoute.common.exception.ErrorResponse;
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.domain.User;
 import com.hush0k.shareRoute.user.internal.dto.request.UserCreateDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserUpdateDto;
 import com.hush0k.shareRoute.common.global_dto.PageResponse;
@@ -45,7 +45,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable UUID id) {
-        UserModel user = userService.getUserById(id);
+        User user = userService.getUserById(id);
         return ResponseEntity.ok(userMapper.toUserResponseDto(user));
     }
 

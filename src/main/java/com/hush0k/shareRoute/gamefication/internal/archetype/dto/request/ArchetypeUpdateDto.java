@@ -1,9 +1,8 @@
-package com.hush0k.shareRoute.gamefication.internal.archetype.dto.response;
+package com.hush0k.shareRoute.gamefication.internal.archetype.dto.request;
 
 import com.hush0k.shareRoute.gamefication.internal.archetype.enums.ArchetypeState;
 
-public record ArchetypeModelResponse(
-        Long id,
+public record ArchetypeUpdateDto(
         String image,
         ArchetypeState archetypeState
 ) {}

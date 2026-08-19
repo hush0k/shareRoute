@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.user.internal.service;
 
-import com.hush0k.shareRoute.user.internal.domain.FirstNameTranslationModel;
-import com.hush0k.shareRoute.user.internal.domain.LastNameTranslationModel;
+import com.hush0k.shareRoute.user.internal.domain.FirstNameTranslation;
+import com.hush0k.shareRoute.user.internal.domain.LastNameTranslation;
 import com.hush0k.shareRoute.user.internal.repository.FirstNameTranslationRepository;
 import com.hush0k.shareRoute.user.internal.repository.LastNameTranslationRepository;
 import com.hush0k.shareRoute.user.internal.repository.UserRepository;
@@ -29,7 +29,7 @@ public class RandomIdentityGenerator {
                 .findByFirstNameGroupIdAndLanguageCode(randomId, languageCode)
                 .or(() -> firstNameRepository
                         .findByFirstNameGroupIdAndLanguageCode(randomId, DEFAULT_LANGUAGE))
-                .map(FirstNameTranslationModel::getValue)
+                .map(FirstNameTranslation::getValue)
                 .orElse("User");
     }
 
@@ -41,7 +41,7 @@ public class RandomIdentityGenerator {
                 .findByLastNameGroupIdAndLanguageCode(randomId, languageCode)
                 .or(() -> lastNameRepository
                         .findByLastNameGroupIdAndLanguageCode(randomId, DEFAULT_LANGUAGE))
-                .map(LastNameTranslationModel::getValue)
+                .map(LastNameTranslation::getValue)
                 .orElse(" ");
     }
 

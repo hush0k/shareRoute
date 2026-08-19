@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class ArchetypeTranslationModel {
+public class ArchetypeTranslation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class ArchetypeTranslationModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "archetype_id", nullable = false)
-    private ArchetypeModel archetype;
+    private Archetype archetype;
 
     @Column(name = "name")
     private String name;

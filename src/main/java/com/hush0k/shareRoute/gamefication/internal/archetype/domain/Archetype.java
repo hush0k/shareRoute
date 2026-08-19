@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class ArchetypeModel {
+public class Archetype {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

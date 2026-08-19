@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface FollowersMapper {
-    FollowersModel toFollowersModel(FollowersCreateDto followersModel);
-    FollowersResponseDto toFollowersResponseDto(FollowersModel followersModel);
+    Followers toFollowers(FollowersCreateDto followers);
+    FollowersResponseDto toFollowersResponseDto(Followers followers);
 }

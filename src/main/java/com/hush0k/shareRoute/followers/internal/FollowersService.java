@@ -46,8 +46,8 @@ public class FollowersService {
             throw new UserAlreadyFollowUserException(dto.followerId(), dto.followingId());
         }
 
-        FollowersModel followers = followersMapper.toFollowersModel(dto);
-        FollowersModel newFollower = followersRepository.save(followers);
+        Followers followers = followersMapper.toFollowers(dto);
+        Followers newFollower = followersRepository.save(followers);
 
         return followersMapper.toFollowersResponseDto(newFollower);
     }
@@ -55,7 +55,7 @@ public class FollowersService {
     public FollowersListDto getFollowersList(UUID followingId, UUID currentUserId, Pageable pageable) {
         Page<UUID> followerIdsPage = followersRepository
                 .findAllByFollowingId(followingId, pageable)
-                .map(FollowersModel::getFollowerId);
+                .map(Followers::getFollowerId);
 
         List<UUID> followerIds = followerIdsPage.getContent();
 
@@ -86,7 +86,7 @@ public class FollowersService {
     public FollowingListDto getFollowingList(UUID followerId, Pageable pageable) {
         Page<UUID> followingIdsPage = followersRepository
                 .findAllByFollowerId(followerId, pageable)
-                .map(FollowersModel::getFollowingId);
+                .map(Followers::getFollowingId);
 
         List<UUID> followingIds = followingIdsPage.getContent();
 

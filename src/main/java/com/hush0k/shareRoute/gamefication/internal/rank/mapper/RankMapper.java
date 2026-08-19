@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.gamefication.internal.rank.mapper;
 
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
-import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeModelUpdateDto;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.Archetype;
+import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.ArchetypeUpdateDto;
 import com.hush0k.shareRoute.gamefication.internal.rank.domain.Rank;
 import com.hush0k.shareRoute.gamefication.internal.rank.dto.request.RankCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.rank.dto.request.RankUpdateDto;

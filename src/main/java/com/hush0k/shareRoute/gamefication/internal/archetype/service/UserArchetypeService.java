@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.service;
 
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeTranslationModel;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.Archetype;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeTranslation;
 import com.hush0k.shareRoute.gamefication.internal.archetype.domain.UserArchetype;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.UserArchetypeCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.UserArchetypeUpdateDto;
@@ -10,7 +10,7 @@ import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.UserAr
 import com.hush0k.shareRoute.gamefication.internal.archetype.enums.ArchetypeState;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.NotPublishedArchetypeException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.UserArchetypeNotFoundException;
-import com.hush0k.shareRoute.gamefication.internal.archetype.mapper.ArchetypeModelMapper;
+import com.hush0k.shareRoute.gamefication.internal.archetype.mapper.ArchetypeMapper;
 import com.hush0k.shareRoute.gamefication.internal.archetype.mapper.UserArchetypeMapper;
 import com.hush0k.shareRoute.gamefication.internal.archetype.repository.UserArchetypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,19 +34,19 @@ public class UserArchetypeService {
 
     private final UserArchetypeRepository userArchetypeRepository;
     private final UserArchetypeMapper userArchetypeMapper;
-    private final ArchetypeModelService archetypeModelService;
-    private final ArchetypeModelMapper archetypeModelMapper;
+    private final ArchetypeService archetypeService;
+    private final ArchetypeMapper archetypeMapper;
     private final ArchetypeTranslationService archetypeTranslationService;
 
     public UserArchetypeResponseDto createUserArchetype(UserArchetypeCreateDto dto, UUID userId, Long archetypeId){
-        ArchetypeModel archetypeModel = archetypeModelMapper.toArchetypeFromResponse(archetypeModelService.getArchetypeModelById(archetypeId));
+        Archetype archetype = archetypeMapper.toArchetypeFromResponse(archetypeService.getArchetypeById(archetypeId));
         UserArchetype newUserArchetype = userArchetypeMapper.toUserArchetype(dto);
-        if (archetypeModel.getArchetypeState() != ArchetypeState.PUBLISHED) {
-            log.warn("Attempt to assign not published archetype with id {}", archetypeModel.getId());
-            throw new NotPublishedArchetypeException(archetypeModel.getId());
+        if (archetype.getArchetypeState() != ArchetypeState.PUBLISHED) {
+            log.warn("Attempt to assign not published archetype with id {}", archetype.getId());
+            throw new NotPublishedArchetypeException(archetype.getId());
         }
         newUserArchetype.setUserId(userId);
-        newUserArchetype.setArchetype(archetypeModel);
+        newUserArchetype.setArchetype(archetype);
         UserArchetype userArchetype = userArchetypeRepository.save(newUserArchetype);
         return userArchetypeMapper.toUserArchetypeResponseDto(userArchetype);
     }
@@ -77,10 +77,10 @@ public class UserArchetypeService {
                 .distinct()
                 .toList();
 
-        List<ArchetypeTranslationModel> translationModels =
-                archetypeTranslationService.getArchetypeTranslationModelsByLanguage(archetypeIds, language);
+        List<ArchetypeTranslation> translations =
+                archetypeTranslationService.getArchetypeTranslationsByLanguage(archetypeIds, language);
 
-        Map<Long, ArchetypeTranslationModel> translationByArchetypeId = translationModels.stream()
+        Map<Long, ArchetypeTranslation> translationByArchetypeId = translations.stream()
                 .collect(Collectors.toMap(t -> t.getArchetype().getId(), t -> t));
 
         List<Long> missingIds = archetypeIds.stream()
@@ -88,8 +88,8 @@ public class UserArchetypeService {
                 .toList();
 
         if (!missingIds.isEmpty()) {
-            List<ArchetypeTranslationModel> fallbackTranslations =
-                    archetypeTranslationService.getArchetypeTranslationModelsByLanguage(missingIds, "en");
+            List<ArchetypeTranslation> fallbackTranslations =
+                    archetypeTranslationService.getArchetypeTranslationsByLanguage(missingIds, "en");
             fallbackTranslations.forEach(t -> translationByArchetypeId.put(t.getArchetype().getId(), t));
         }
 

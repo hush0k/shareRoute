@@ -1,6 +1,6 @@
 package com.hush0k.shareRoute.user;
 
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.domain.User;
 
 import java.util.List;
 import java.util.Optional;

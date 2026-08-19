@@ -1,6 +1,6 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.dto.request;
 
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.Archetype;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,7 +10,7 @@ import lombok.Builder;
 public record TranslationCreateDto(
 
         @NotNull
-        ArchetypeModel archetypeModel,
+        Archetype archetype,
 
         @NotBlank
         @Size(min=3, max=200)

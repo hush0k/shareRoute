@@ -2,7 +2,7 @@ package com.hush0k.shareRoute.gamefication.internal.archetype.dto.request;
 
 import jakarta.validation.constraints.Size;
 
-public record ArchetypeModelCreate(
+public record ArchetypeCreate(
 
         String image,
 

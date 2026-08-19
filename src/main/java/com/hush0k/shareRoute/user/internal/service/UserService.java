@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.user.internal.service;
 
 import com.hush0k.shareRoute.user.internal.UserMapper;
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.domain.User;
 import com.hush0k.shareRoute.user.internal.dto.request.UserBootstrapDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserCreateDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserUpdateDto;
@@ -32,13 +32,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public PageResponse<UserResponseDto> getUsers(Pageable pageable){
-        Page<UserModel> users = userRepository.findAll(pageable);
+        Page<User> users = userRepository.findAll(pageable);
         Page<UserResponseDto> mapped = users.map(userMapper::toUserResponseDto);
         return PageResponse.of(mapped);
     }
 
     @Transactional(readOnly = true)
-    public UserModel getUserById(UUID id){
+    public User getUserById(UUID id){
         return userRepository.findById(id).orElseThrow(
                 () -> {
                    log.warn("User with id {} not found", id);
@@ -49,7 +49,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponseDto getUserByEmail(String email){
-        UserModel user = userRepository.findByEmail(email).orElseThrow(
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> {
                     log.warn("User with email {} not found", email);
                     return new UserNotFoundByEmail(email);
@@ -59,14 +59,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<UserModel> getUserByEmailWithoutException(String email){
-        UserModel user = userRepository.findByEmail(email).orElse(null);
+    public Optional<User> getUserByEmailWithoutException(String email){
+        User user = userRepository.findByEmail(email).orElse(null);
         return Optional.ofNullable(user);
     }
 
     @Transactional(readOnly = true)
     public UserResponseDto getUserByNickname(String nickname){
-        UserModel user = userRepository.findByNickname(nickname).orElseThrow(
+        User user = userRepository.findByNickname(nickname).orElseThrow(
                 () -> {
                     log.warn("User with name {} not found", nickname);
                     return new UserNotFoundByNicknameException(nickname);
@@ -76,8 +76,8 @@ public class UserService {
     }
 
     public UserResponseDto createUser(UserCreateDto dto){
-        UserModel user = userMapper.toUserModel(dto);
-        UserModel createdUser = userRepository.save(user);
+        User user = userMapper.toUser(dto);
+        User createdUser = userRepository.save(user);
 
         return userMapper.toUserResponseDto(createdUser);
     }
@@ -87,7 +87,7 @@ public class UserService {
         log.info("createBootstrapUser: id={}, email={}, nickname={}, firstName={}, lastName={}",
                 dto.id(), dto.email(), dto.nickname(), dto.firstName(), dto.lastName());
 
-        UserModel user = new UserModel();
+        User user = new User();
         user.setId(dto.id());
         user.setEmail(dto.email());
         user.setNickname(dto.nickname());
@@ -96,21 +96,21 @@ public class UserService {
         user.setCompleteRegistration(false);
         user.setFirstEnter(true);
 
-        UserModel createdUser = userRepository.saveAndFlush(user);
+        User createdUser = userRepository.saveAndFlush(user);
         log.info("createBootstrapUser: saved & flushed id={}", createdUser.getId());
         userMapper.toUserResponseDto(createdUser);
     }
 
     public UserResponseDto updateUser(UUID id, UserUpdateDto dto){
-        UserModel user = getUserById(id);
+        User user = getUserById(id);
         userMapper.updateUserFromDto(dto, user);
-        UserModel updatedUser = userRepository.save(user);
+        User updatedUser = userRepository.save(user);
 
         return userMapper.toUserResponseDto(updatedUser);
     }
 
     public void deleteUser(UUID id){
-        UserModel user = getUserById(id);
+        User user = getUserById(id);
         userRepository.delete(user);
     }
 

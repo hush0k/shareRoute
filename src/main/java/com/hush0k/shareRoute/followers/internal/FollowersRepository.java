@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public interface FollowersRepository extends JpaRepository<FollowersModel, UUID> {
+public interface FollowersRepository extends JpaRepository<Followers, UUID> {
     boolean existsByFollowerIdAndFollowingId(UUID followerId, UUID followingId);
-    Page<FollowersModel> findAllByFollowerId(UUID followerId, Pageable pageable);
-    Page<FollowersModel> findAllByFollowingId(UUID followingId, Pageable pageable);
-    @Query("SELECT f.followingId FROM FollowersModel f " +
+    Page<Followers> findAllByFollowerId(UUID followerId, Pageable pageable);
+    Page<Followers> findAllByFollowingId(UUID followingId, Pageable pageable);
+    @Query("SELECT f.followingId FROM Followers f " +
             "WHERE f.followerId = :currentUserId AND f.followingId IN :followerIds")
     Set<UUID> findFollowingIdsAmong(@Param("currentUserId") UUID currentUserId,
                                     @Param("followerIds") List<UUID> followerIds);

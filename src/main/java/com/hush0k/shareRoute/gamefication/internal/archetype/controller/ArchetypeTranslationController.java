@@ -1,12 +1,12 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.controller;
 
 import com.hush0k.shareRoute.common.exception.ErrorResponse;
-import com.hush0k.shareRoute.gamefication.internal.archetype.domain.ArchetypeModel;
+import com.hush0k.shareRoute.gamefication.internal.archetype.domain.Archetype;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.request.TranslationUpdateDto;
 import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.archetype.dto.response.TranslationResponseDto;
-import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.ArchetypeModelNotFoundException;
+import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.ArchetypeNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.repository.ArchetypeRepository;
 import com.hush0k.shareRoute.gamefication.internal.archetype.service.ArchetypeTranslationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,11 +39,11 @@ public class ArchetypeTranslationController {
     public ResponseEntity<Void> createTranslation(
             @PathVariable Long archetypeId,
             @Valid @RequestBody TranslationCreateRequest request) {
-        ArchetypeModel archetypeModel = archetypeRepository.findById(archetypeId)
-                .orElseThrow(() -> new ArchetypeModelNotFoundException(archetypeId));
+        Archetype archetype = archetypeRepository.findById(archetypeId)
+                .orElseThrow(() -> new ArchetypeNotFoundException(archetypeId));
 
         TranslationCreateDto dto = TranslationCreateDto.builder()
-                .archetypeModel(archetypeModel)
+                .archetype(archetype)
                 .name(request.name())
                 .description(request.description())
                 .languageCode(request.languageCode())

@@ -1,7 +1,7 @@
 package com.hush0k.shareRoute.user.internal;
 
 import com.hush0k.shareRoute.user.UserBriefDto;
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.domain.User;
 import com.hush0k.shareRoute.user.internal.dto.request.UserCreateDto;
 import com.hush0k.shareRoute.user.internal.dto.request.UserUpdateDto;
 import com.hush0k.shareRoute.user.internal.dto.response.UserResponseDto;
@@ -15,16 +15,16 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserModel toUserModel(UserCreateDto dto);
+    User toUser(UserCreateDto dto);
 
-    UserModel toUserModel(UserResponseDto dto);
+    User toUser(UserResponseDto dto);
 
-    UserResponseDto toUserResponseDto(UserModel user);
+    UserResponseDto toUserResponseDto(User user);
 
-    List<UserResponseDto> toUserResponseDtoList(List<UserModel> users);
+    List<UserResponseDto> toUserResponseDtoList(List<User> users);
 
-    UserBriefDto toUserBriefDto(UserModel user);
+    UserBriefDto toUserBriefDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserFromDto(UserUpdateDto dto, @MappingTarget UserModel user);
+    void updateUserFromDto(UserUpdateDto dto, @MappingTarget User user);
 }

@@ -3,7 +3,7 @@ package com.hush0k.shareRoute.user.internal.service;
 import com.hush0k.shareRoute.user.UserBriefDto;
 import com.hush0k.shareRoute.user.UserLookupPort;
 import com.hush0k.shareRoute.user.internal.UserMapper;
-import com.hush0k.shareRoute.user.internal.domain.UserModel;
+import com.hush0k.shareRoute.user.internal.domain.User;
 import com.hush0k.shareRoute.user.internal.dto.response.UserResponseDto;
 import com.hush0k.shareRoute.user.internal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class UserLookupService implements UserLookupPort {
 
     @Override
     public UserBriefDto getUserById(UUID  userId) {
-        UserModel user = userService.getUserById(userId);
+        User user = userService.getUserById(userId);
         return userMapper.toUserBriefDto(user);
     }
 
