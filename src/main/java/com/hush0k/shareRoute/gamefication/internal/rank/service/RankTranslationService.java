@@ -47,7 +47,7 @@ public class RankTranslationService {
 
     @Transactional(readOnly = true)
     public PageResponse<RankTranslationResponseDto> getRankTranslations(Pageable pageable, String languageCode){
-        Page<RankTranslation> rankTranslations = rankTranslationRepository.findAll(pageable);
+        Page<RankTranslation> rankTranslations = rankTranslationRepository.findAllByLang(languageCode, pageable);
         Page<RankTranslationResponseDto> mapped = rankTranslations.map(rankTranslationMapper::toRankTranslationResponse);
         return PageResponse.of(mapped);
     }

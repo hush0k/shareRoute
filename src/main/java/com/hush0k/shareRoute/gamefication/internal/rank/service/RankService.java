@@ -3,6 +3,7 @@ package com.hush0k.shareRoute.gamefication.internal.rank.service;
 import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import com.hush0k.shareRoute.gamefication.internal.rank.domain.Rank;
 import com.hush0k.shareRoute.gamefication.internal.rank.dto.request.RankCreateDto;
+import com.hush0k.shareRoute.gamefication.internal.rank.dto.request.RankTranslationCreateDto;
 import com.hush0k.shareRoute.gamefication.internal.rank.dto.request.RankUpdateDto;
 import com.hush0k.shareRoute.gamefication.internal.rank.dto.response.RankResponseDto;
 import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankNotFoundException;
@@ -23,11 +24,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class RankService {
 
     private final RankRepository rankRepository;
+    private final RankTranslationService rankTranslationService;
     private final RankMapper rankMapper;
+
+    private static final String DEFAULT_LANGUAGE = "en";
 
     public RankResponseDto createRank(RankCreateDto dto) {
         Rank rank = rankMapper.toRank(dto);
-        return rankMapper.toResponseDto(rankRepository.save(rank));
+        Rank created = rankRepository.save(rank);
+
+        RankTranslationCreateDto newTrnaslation = RankTranslationCreateDto.builder()
+                .name(dto.name())
+                .description(dto.description())
+                .languageCode(DEFAULT_LANGUAGE)
+                .rank(created)
+                .build();
+
+        rankTranslationService.createRank(newTrnaslation);
+        return rankMapper.toResponseDto(created);
     }
 
     public RankResponseDto updateRank(RankUpdateDto dto, Long rankId) {
