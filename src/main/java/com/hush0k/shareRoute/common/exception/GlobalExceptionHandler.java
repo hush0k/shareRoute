@@ -4,7 +4,7 @@ import com.hush0k.shareRoute.auth.internal.exception.NotMatchPasswordsException;
 import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
 import com.hush0k.shareRoute.followers.internal.exception.UserAlreadyFollowUserException;
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
-import com.hush0k.shareRoute.gamefication.internal.exceptions.NotPublishedArchetypeException;
+import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.NotPublishedArchetypeException;
 import com.hush0k.shareRoute.user.internal.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
