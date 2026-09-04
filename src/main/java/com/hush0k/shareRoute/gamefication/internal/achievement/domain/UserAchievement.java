@@ -28,8 +28,9 @@ public class UserAchievement {
     @JoinColumn(name = "achievement_id", nullable = false)
     private Achievement achievement;
 
+    @Builder.Default
     @Column(name = "completed_count")
-    private Integer completedCount;
+    private Integer completedCount = 0;
 
     @Builder.Default
     @Column(name = "is_achieved")

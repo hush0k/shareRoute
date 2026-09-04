@@ -88,6 +88,6 @@ public class UserArchetypeController {
             @PathVariable Long userArchetypeId,
             @Parameter(hidden = true) @CurrentUser UUID userId
     ) {
-        return ResponseEntity.ok(userArchetypeService.unlock(userId, userArchetypeId));
+        return ResponseEntity.ok(userArchetypeService.unlockUserArchetype(userId, userArchetypeId));
     }
 }

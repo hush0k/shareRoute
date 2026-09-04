@@ -36,7 +36,7 @@ public class RankTranslationController {
     @Operation(summary = "Create a translation for a rank")
     @ApiResponse(responseCode = "404", description = "Rank not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<RankTranslationResponseDto> createTranslation(
+    public ResponseEntity<RankTranslationResponseDto> createRankTranslation(
             @PathVariable Long rankId,
             @Valid @RequestBody TranslationCreateRequest request) {
         Rank rank = rankRepository.findById(rankId)
@@ -49,7 +49,7 @@ public class RankTranslationController {
                 request.description()
         );
 
-        RankTranslationResponseDto created = rankTranslationService.createRank(dto);
+        RankTranslationResponseDto created = rankTranslationService.createRankTranslation(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -57,21 +57,21 @@ public class RankTranslationController {
     @Operation(summary = "Update a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<RankTranslationResponseDto> updateTranslation(
+    public ResponseEntity<RankTranslationResponseDto> updateRankTranslation(
             @PathVariable Long rankId,
             @PathVariable String languageCode,
             @Valid @RequestBody RankTranslationUpdateDto dto) {
-        return ResponseEntity.ok(rankTranslationService.updateRank(dto, rankId, languageCode));
+        return ResponseEntity.ok(rankTranslationService.updateRankTranslation(dto, rankId, languageCode));
     }
 
     @DeleteMapping("/{languageCode}")
     @Operation(summary = "Delete a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<Void> deleteTranslation(
+    public ResponseEntity<Void> deleteRankTranslation(
             @PathVariable Long rankId,
             @PathVariable String languageCode) {
-        rankTranslationService.deleteRank(rankId, languageCode);
+        rankTranslationService.deleteRankTranslation(rankId, languageCode);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,7 +79,7 @@ public class RankTranslationController {
     @Operation(summary = "Get a translation by rank id and language code")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<RankTranslationResponseDto> getTranslation(
+    public ResponseEntity<RankTranslationResponseDto> getRankTranslation(
             @PathVariable Long rankId,
             @PathVariable String languageCode) {
         return ResponseEntity.ok(rankTranslationService.getRankTranslationByLangAndRankId(rankId, languageCode));
@@ -87,7 +87,7 @@ public class RankTranslationController {
 
     @GetMapping
     @Operation(summary = "Get translations by langueage")
-    public ResponseEntity<PageResponse<RankTranslationResponseDto>> getTranslations(
+    public ResponseEntity<PageResponse<RankTranslationResponseDto>> getRankTranslations(
             @RequestParam String language,
             Pageable pageable) {
         return ResponseEntity.ok(rankTranslationService.getRankTranslations(pageable, language));

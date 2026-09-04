@@ -26,11 +26,11 @@ public class ArchetypeTranslationService {
     private final ArchetypeTranslationRepository translationRepository;
     private final TranslationMapper  translationMapper;
 
-    public void createTranslation(TranslationCreateDto dto) {
+    public void createArchetypeTranslation(TranslationCreateDto dto) {
         ArchetypeTranslation newTranslation = translationRepository.save(translationMapper.toArchetypeTranslation(dto));
     }
 
-    public TranslationResponseDto updateTranslation(TranslationUpdateDto dto, Long archetypeId, String languageCode) {
+    public TranslationResponseDto updateArchetypeTranslation(TranslationUpdateDto dto, Long archetypeId, String languageCode) {
         ArchetypeTranslation archetypeTranslation = getArchetypeTranslationEntry(archetypeId, languageCode);
         translationMapper.updateTranslation(dto, archetypeTranslation);
 
@@ -38,13 +38,13 @@ public class ArchetypeTranslationService {
         return translationMapper.toTranslationResponseDto(updatedTranslation);
     }
 
-    public void deleteTranslation(Long archetypeId, String languageCode) {
+    public void deleteArchetypeTranslation(Long archetypeId, String languageCode) {
         ArchetypeTranslation archetypeTranslation = getArchetypeTranslationEntry(archetypeId, languageCode);
         translationRepository.delete(archetypeTranslation);
     }
 
     @Transactional(readOnly = true)
-    public TranslationResponseDto getTranslation(Long archetypeId, String languageCode) {
+    public TranslationResponseDto getArchetypeTranslation(Long archetypeId, String languageCode) {
         ArchetypeTranslation archetypeTranslation = getArchetypeTranslationEntry(archetypeId, languageCode);
         return translationMapper.toTranslationResponseDto(archetypeTranslation);
     }

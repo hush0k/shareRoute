@@ -40,7 +40,7 @@ public class RankService {
                 .rank(created)
                 .build();
 
-        rankTranslationService.createRank(newTrnaslation);
+        rankTranslationService.createRankTranslation(newTrnaslation);
         return rankMapper.toResponseDto(created);
     }
 

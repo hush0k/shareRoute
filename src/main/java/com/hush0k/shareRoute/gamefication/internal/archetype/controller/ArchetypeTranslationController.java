@@ -36,7 +36,7 @@ public class ArchetypeTranslationController {
     @Operation(summary = "Create a translation for an archetype model")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<Void> createTranslation(
+    public ResponseEntity<Void> createArchetypeTranslation(
             @PathVariable Long archetypeId,
             @Valid @RequestBody TranslationCreateRequest request) {
         Archetype archetype = archetypeRepository.findById(archetypeId)
@@ -49,7 +49,7 @@ public class ArchetypeTranslationController {
                 .languageCode(request.languageCode())
                 .build();
 
-        archetypeTranslationService.createTranslation(dto);
+        archetypeTranslationService.createArchetypeTranslation(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -57,21 +57,21 @@ public class ArchetypeTranslationController {
     @Operation(summary = "Update a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<TranslationResponseDto> updateTranslation(
+    public ResponseEntity<TranslationResponseDto> updateArchetypeTranslation(
             @PathVariable Long archetypeId,
             @PathVariable String languageCode,
             @Valid @RequestBody TranslationUpdateDto dto) {
-        return ResponseEntity.ok(archetypeTranslationService.updateTranslation(dto, archetypeId, languageCode));
+        return ResponseEntity.ok(archetypeTranslationService.updateArchetypeTranslation(dto, archetypeId, languageCode));
     }
 
     @DeleteMapping("/api/archetypes/{archetypeId}/translations/{languageCode}")
     @Operation(summary = "Delete a translation")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<Void> deleteTranslation(
+    public ResponseEntity<Void> deleteArchetypeTranslation(
             @PathVariable Long archetypeId,
             @PathVariable String languageCode) {
-        archetypeTranslationService.deleteTranslation(archetypeId, languageCode);
+        archetypeTranslationService.deleteArchetypeTranslation(archetypeId, languageCode);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,15 +79,15 @@ public class ArchetypeTranslationController {
     @Operation(summary = "Get a translation by archetype id and language code")
     @ApiResponse(responseCode = "404", description = "Translation not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<TranslationResponseDto> getTranslation(
+    public ResponseEntity<TranslationResponseDto> getArchetypeTranslation(
             @PathVariable Long archetypeId,
             @PathVariable String languageCode) {
-        return ResponseEntity.ok(archetypeTranslationService.getTranslation(archetypeId, languageCode));
+        return ResponseEntity.ok(archetypeTranslationService.getArchetypeTranslation(archetypeId, languageCode));
     }
 
     @GetMapping("/by-language")
     @Operation(summary = "Get translations by language")
-    public ResponseEntity<PageResponse<TranslationResponseDto>> getTranslations(
+    public ResponseEntity<PageResponse<TranslationResponseDto>> getArchetypeTranslations(
             @RequestParam String language,
             Pageable pageable) {
         return ResponseEntity.ok(archetypeTranslationService.getArchetypeTranslationsByLanguage(pageable, language));
@@ -95,7 +95,7 @@ public class ArchetypeTranslationController {
 
     @GetMapping("/by-archetype-id/{archetypeId}")
     @Operation(summary = "Get translations by archetype id")
-    public ResponseEntity<PageResponse<TranslationResponseDto>> getTranslationsByArchetype(
+    public ResponseEntity<PageResponse<TranslationResponseDto>> getArchetypeTranslationsByArchetype(
             @PathVariable Long archetypeId,
             Pageable pageable) {
         return ResponseEntity.ok(archetypeTranslationService.getArchetypeTranslationsByArchetypeId(archetypeId,

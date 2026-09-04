@@ -40,7 +40,7 @@ public class ArchetypeService {
                 .name(dto.engName())
                 .languageCode(DEFAULT_LANGUAGE_CODE)
                 .build();
-        archetypeTranslationService.createTranslation(translationCreateDto);
+        archetypeTranslationService.createArchetypeTranslation(translationCreateDto);
 
         return archetypeMapper.toArchetypeResponse(newArchetype);
     }
@@ -72,7 +72,7 @@ public class ArchetypeService {
         return PageResponse.of(mapped);
     }
 
-    public ArchetypeResponse publish(Long archetypeId){
+    public ArchetypeResponse publishArchetype(Long archetypeId){
         Archetype archetype = getArchetypeOrThrow(archetypeId);
         archetype.setArchetypeState(ArchetypeState.PUBLISHED);
         return archetypeMapper.toArchetypeResponse(archetypeRepository.save(archetype));

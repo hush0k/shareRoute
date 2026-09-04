@@ -56,7 +56,7 @@ public class ArchetypeController {
     @Operation(summary = "Get an archetype model by id")
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    public ResponseEntity<ArchetypeResponse> getArchetypeOrThrow(@PathVariable Long archetypeId) {
+    public ResponseEntity<ArchetypeResponse> getArchetype(@PathVariable Long archetypeId) {
         return ResponseEntity.ok(archetypeService.getArchetypeById(archetypeId));
     }
 
@@ -71,6 +71,6 @@ public class ArchetypeController {
     @ApiResponse(responseCode = "404", description = "Archetype not found",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     public ResponseEntity<ArchetypeResponse> publishArchetype(@PathVariable Long archetypeId){
-        return ResponseEntity.ok(archetypeService.publish(archetypeId));
+        return ResponseEntity.ok(archetypeService.publishArchetype(archetypeId));
     }
 }

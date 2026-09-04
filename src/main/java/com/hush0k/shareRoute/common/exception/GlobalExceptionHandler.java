@@ -4,6 +4,9 @@ import com.hush0k.shareRoute.auth.internal.exception.NotMatchPasswordsException;
 import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
 import com.hush0k.shareRoute.followers.internal.exception.UserAlreadyFollowUserException;
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
+import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.AchievementConditionNotFoundException;
+import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.AchievementNotFoundException;
+import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.AchievementTranslationNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.NotPublishedArchetypeException;
 import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankTranslationNotFoundException;
@@ -229,6 +232,42 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 "RANK_TRANSLATION_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(AchievementNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAchievementNotFound(AchievementNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "ACHIEVEMENT_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(AchievementConditionNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAchievementConditionNotFound(AchievementConditionNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "ACHIEVEMENT_CONDITION_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(AchievementTranslationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAchievementTranslationNotFound(AchievementTranslationNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "ACHIEVEMENT_TRANSLATION_NOT_FOUND",
                 resolve(ex),
                 Instant.now(),
                 request.getRequestURI(),

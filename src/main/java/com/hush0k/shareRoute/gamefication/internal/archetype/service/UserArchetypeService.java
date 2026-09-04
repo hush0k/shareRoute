@@ -103,7 +103,7 @@ public class UserArchetypeService {
         return PageResponse.of(mapped);
     }
 
-    public UserArchetypeResponseDto unlock(UUID userId, Long archetypeId){
+    public UserArchetypeResponseDto unlockUserArchetype(UUID userId, Long archetypeId){
         UserArchetype userArchetype = userArchetypeRepository.findByUserIdAndArchetypeId(userId, archetypeId)
                 .orElseThrow(
                         () -> {

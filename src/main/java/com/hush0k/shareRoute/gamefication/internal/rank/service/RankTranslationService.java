@@ -24,18 +24,18 @@ public class RankTranslationService {
     private final RankTranslationRepository rankTranslationRepository;
     private final RankTranslationMapper rankTranslationMapper;
 
-    public RankTranslationResponseDto createRank(RankTranslationCreateDto dto){
+    public RankTranslationResponseDto createRankTranslation(RankTranslationCreateDto dto){
         RankTranslation rankTranslation = rankTranslationMapper.toRankTranslation(dto);
         return rankTranslationMapper.toRankTranslationResponse(rankTranslationRepository.save(rankTranslation));
     }
 
-    public RankTranslationResponseDto updateRank(RankTranslationUpdateDto dto, Long rankId, String languageCode){
+    public RankTranslationResponseDto updateRankTranslation(RankTranslationUpdateDto dto, Long rankId, String languageCode){
         RankTranslation rankTranslation = getTranslation(rankId, languageCode);
         rankTranslationMapper.updateRank(dto, rankTranslation);
         return rankTranslationMapper.toRankTranslationResponse(rankTranslationRepository.save(rankTranslation));
     }
 
-    public void deleteRank(Long rankId, String languageCode){
+    public void deleteRankTranslation(Long rankId, String languageCode){
         RankTranslation rankTranslation = getTranslation(rankId, languageCode);
         rankTranslationRepository.delete(rankTranslation);
     }
