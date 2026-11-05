@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,11 @@ public record AchievementCreateDto(
         @NotNull Integer level,
         @NotNull Integer exp,
         String image,
-        @NotNull @Valid AchievementTranslationCreateDto translation,
+        @NotNull @Valid TranslationRequest translation,
         @NotNull @Valid AchievementConditionCreateDto condition
-) {}
+) {
+    public record TranslationRequest(
+            @NotBlank @Size(max = 100) String name,
+            @Size(max = 1000) String description
+    ) {}
+}

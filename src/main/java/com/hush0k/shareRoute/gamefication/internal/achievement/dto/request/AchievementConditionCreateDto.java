@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Builder
 public record AchievementConditionCreateDto(
-        @NotNull Achievement achievement,
+        Achievement achievement,
         @NotNull ConditionType conditionType,
         @NotNull @Positive Long numberOfAction,
         Map<String, Object> metadata

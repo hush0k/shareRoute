@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,8 +37,13 @@ public class AchievementConditionService {
         return achievementConditionMapper.toAchievementConditionResponseDto(achievementConditionRepository.save(condition));
     }
 
-    public List<AchievementCondition> getConditionsByAchievementId(UUID achievementId) {
-        return achievementConditionRepository.findAllByAchievementId(achievementId);
+    public AchievementCondition getConditionByAchievementId(UUID achievementId) {
+        return achievementConditionRepository.findByAchievementId(achievementId).orElseThrow(
+                () -> {
+                    log.warn("Could not find achievement condition for achievement {}", achievementId);
+                    return new AchievementConditionNotFoundException(achievementId);
+                }
+        );
     }
 
     private AchievementCondition getCondition(Long id) {

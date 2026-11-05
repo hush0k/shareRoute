@@ -75,6 +75,11 @@ public class UserService {
         return userMapper.toUserResponseDto(user);
     }
 
+    @Transactional(readOnly = true)
+    public boolean isNicknameTaken(String nickname){
+        return userRepository.existsByNickname(nickname);
+    }
+
     public UserResponseDto createUser(UserCreateDto dto){
         User user = userMapper.toUser(dto);
         User createdUser = userRepository.save(user);
@@ -93,6 +98,11 @@ public class UserService {
         user.setNickname(dto.nickname());
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
+        user.setLanguage(dto.languageCode());
+        user.setDateOfBirth(dto.dateOfBirth());
+        user.setDescription(dto.description());
+        user.setCountryId(dto.countryId());
+        user.setCityId(dto.cityId());
         user.setCompleteRegistration(false);
         user.setFirstEnter(true);
 

@@ -1,5 +1,6 @@
 package com.hush0k.shareRoute.gamefication.internal.archetype.dto.request;
 
+import com.hush0k.shareRoute.gamefication.internal.archetype.enums.ArchetypeState;
 import jakarta.validation.constraints.Size;
 
 public record ArchetypeCreate(
@@ -10,6 +11,8 @@ public record ArchetypeCreate(
         String engDescription,
 
         @Size(min=3, max=200)
-        String engName
+        String engName,
+
+        ArchetypeState archetypeState
 
 ) {}

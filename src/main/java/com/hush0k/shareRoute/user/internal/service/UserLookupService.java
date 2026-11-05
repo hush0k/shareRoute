@@ -40,6 +40,11 @@ public class UserLookupService implements UserLookupPort {
     }
 
     @Override
+    public boolean isNicknameExists(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    @Override
     public UUID getUserIdByNickname(String nickname) {
         UserResponseDto user = userService.getUserByNickname(nickname);
         return user.id();

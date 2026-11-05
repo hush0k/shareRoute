@@ -13,7 +13,9 @@ CREATE TABLE gamefication.achievement_condition (
     metadata         JSONB,
 
     CONSTRAINT fk_achievement_condition_achievement
-        FOREIGN KEY (achievement_id) REFERENCES gamefication.achievement (id)
+        FOREIGN KEY (achievement_id) REFERENCES gamefication.achievement (id),
+    CONSTRAINT uq_achievement_condition_achievement
+        UNIQUE (achievement_id)
 );
 
 CREATE TABLE gamefication.achievement_translation (
@@ -31,7 +33,7 @@ CREATE TABLE gamefication.user_achievement (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id         UUID NOT NULL,
     achievement_id  UUID NOT NULL,
-    completed_count INTEGER,
+    completed_count BIGINT,
     is_achieved     BOOLEAN DEFAULT FALSE,
     achieved_at     TIMESTAMPTZ,
 

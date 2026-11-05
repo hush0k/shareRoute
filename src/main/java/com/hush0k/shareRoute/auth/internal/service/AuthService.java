@@ -9,11 +9,13 @@ import com.hush0k.shareRoute.auth.internal.dto.response.TokenResponseDto;
 import com.hush0k.shareRoute.auth.internal.exception.InvalidCredentialsExceptions;
 import com.hush0k.shareRoute.auth.internal.exception.TooManyLoginAttemptsException;
 import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
+import com.hush0k.shareRoute.auth.internal.exception.UserWithNicknameAlreadyExists;
 import com.hush0k.shareRoute.auth.internal.dto.request.RegisterDataDto;
 import com.hush0k.shareRoute.auth.internal.mapper.CredentialsMapper;
 import com.hush0k.shareRoute.auth.internal.repository.CredentialsRepository;
 import com.hush0k.shareRoute.auth.internal.repository.LoginAttemptRepository;
 import com.hush0k.shareRoute.auth.internal.repository.RefreshRepository;
+import com.hush0k.shareRoute.geography.GeographyLookupPort;
 import com.hush0k.shareRoute.user.UserLookupPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,7 @@ public class AuthService {
     private final CredentialsRepository credentialsRepository;
     private final RefreshRepository refreshRepository;
     private final UserLookupPort userService;
+    private final GeographyLookupPort geographyLookup;
     private final PasswordEncoder passwordEncoder;
     private final CredentialsMapper credentialsMapper;
     private final ApplicationEventPublisher eventPublisher;
@@ -55,13 +58,35 @@ public class AuthService {
             throw new UserWithEmailAlreadyExists(dto.email());
         }
 
+        String nickname = blankToNull(dto.nickname());
+        if (nickname != null && userService.isNicknameExists(nickname)) {
+            throw new UserWithNicknameAlreadyExists(nickname);
+        }
+
+        Integer countryId = geographyLookup.resolveCountryId(dto.countryId(), dto.cityId());
+
         String hashedPassword = passwordEncoder.encode(dto.password());
         UUID userId = UUID.randomUUID();
 
         Credentials userCredentials = credentialsMapper.toCredentials(userId, dto.email(), hashedPassword);
         credentialsRepository.save(userCredentials);
 
-        eventPublisher.publishEvent(new UserRegisteredEvent(userId, dto.email(), languageCode));
+        eventPublisher.publishEvent(new UserRegisteredEvent(
+                userId,
+                dto.email(),
+                languageCode,
+                nickname,
+                blankToNull(dto.firstName()),
+                blankToNull(dto.lastName()),
+                dto.dateOfBirth(),
+                blankToNull(dto.description()),
+                countryId,
+                dto.cityId()
+        ));
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value.strip();
     }
 
     public TokenResponseDto login(LoginDataDto dto, String languageCode, String ipAddress) {

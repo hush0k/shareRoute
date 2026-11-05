@@ -23,8 +23,8 @@ public class AchievementCondition {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "achievement_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "achievement_id", nullable = false, unique = true)
     private Achievement achievement;
 
     @Enumerated(EnumType.STRING)

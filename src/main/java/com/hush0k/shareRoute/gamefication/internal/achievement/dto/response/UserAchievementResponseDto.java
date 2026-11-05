@@ -7,7 +7,7 @@ public record UserAchievementResponseDto(
         UUID id,
         UUID userId,
         AchievementFullResponseDto achievement,
-        Integer completedCount,
+        Long completedCount,
         Boolean isAchieved,
         Instant achievedAt
 ) {}

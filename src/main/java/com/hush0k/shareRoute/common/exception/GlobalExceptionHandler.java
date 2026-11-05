@@ -1,7 +1,10 @@
 package com.hush0k.shareRoute.common.exception;
 
+import com.hush0k.shareRoute.auth.internal.exception.InvalidCredentialsExceptions;
 import com.hush0k.shareRoute.auth.internal.exception.NotMatchPasswordsException;
+import com.hush0k.shareRoute.auth.internal.exception.TooManyLoginAttemptsException;
 import com.hush0k.shareRoute.auth.internal.exception.UserWithEmailAlreadyExists;
+import com.hush0k.shareRoute.auth.internal.exception.UserWithNicknameAlreadyExists;
 import com.hush0k.shareRoute.followers.internal.exception.UserAlreadyFollowUserException;
 import com.hush0k.shareRoute.followers.internal.exception.UserFollowThemselvesException;
 import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.AchievementConditionNotFoundException;
@@ -10,6 +13,13 @@ import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.Achiev
 import com.hush0k.shareRoute.gamefication.internal.archetype.exceptions.NotPublishedArchetypeException;
 import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankNotFoundException;
 import com.hush0k.shareRoute.gamefication.internal.rank.exceptions.RankTranslationNotFoundException;
+import com.hush0k.shareRoute.geography.internal.city.exceptions.CityCountryMismatchException;
+import com.hush0k.shareRoute.geography.internal.city.exceptions.CityNotFoundException;
+import com.hush0k.shareRoute.geography.internal.cityTranslation.exceptions.CityTranslationNotFoundException;
+import com.hush0k.shareRoute.geography.internal.country.exceptions.CountryNotFoundException;
+import com.hush0k.shareRoute.geography.internal.countryTranslation.exceptions.CountryTranslationNotFoundException;
+import com.hush0k.shareRoute.post.internal.exception.PostAccessDeniedException;
+import com.hush0k.shareRoute.post.internal.exception.PostNotFoundException;
 import com.hush0k.shareRoute.user.internal.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.MessageSource;
@@ -191,11 +201,47 @@ public class GlobalExceptionHandler {
         ));
     }
 
+    @ExceptionHandler(UserWithNicknameAlreadyExists.class)
+    public ResponseEntity<ErrorResponse> handleUserWithNicknameAlreadyExists(UserWithNicknameAlreadyExists ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "NICKNAME_ALREADY_EXISTS",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
     @ExceptionHandler(NotMatchPasswordsException.class)
     public ResponseEntity<ErrorResponse> handleUserFollowThemselves(NotMatchPasswordsException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "PASSWORDS_DO_NOT_MATCH",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(InvalidCredentialsExceptions.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialsExceptions ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                "INVALID_CREDENTIALS",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(TooManyLoginAttemptsException.class)
+    public ResponseEntity<ErrorResponse> handleTooManyLoginAttempts(TooManyLoginAttemptsException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(new ErrorResponse(
+                HttpStatus.TOO_MANY_REQUESTS.value(),
+                "TOO_MANY_LOGIN_ATTEMPTS",
                 resolve(ex),
                 Instant.now(),
                 request.getRequestURI(),
@@ -268,6 +314,90 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 "ACHIEVEMENT_TRANSLATION_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(CountryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCountryNotFound(CountryNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "COUNTRY_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(CountryTranslationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCountryTranslationNotFound(CountryTranslationNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "COUNTRY_TRANSLATION_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(CityCountryMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleCityCountryMismatch(CityCountryMismatchException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "CITY_COUNTRY_MISMATCH",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(CityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCityNotFound(CityNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "CITY_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(CityTranslationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCityTranslationNotFound(CityTranslationNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "CITY_TRANSLATION_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePostNotFound(PostNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "POST_NOT_FOUND",
+                resolve(ex),
+                Instant.now(),
+                request.getRequestURI(),
+                List.of()
+        ));
+    }
+
+    @ExceptionHandler(PostAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handlePostAccessDenied(PostAccessDeniedException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "POST_ACCESS_DENIED",
                 resolve(ex),
                 Instant.now(),
                 request.getRequestURI(),

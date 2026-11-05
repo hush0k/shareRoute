@@ -1,11 +1,8 @@
 package com.hush0k.shareRoute.gamefication.internal.achievement.domain;
 
-import com.hush0k.shareRoute.gamefication.internal.achievement.enums.ConditionType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,9 +23,8 @@ public class Achievement {
     @Column(name = "level")
     private Integer level;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "achievement",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AchievementCondition> condition = new ArrayList<>();
+    @OneToOne(mappedBy = "achievement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AchievementCondition condition;
 
     @Column(name = "exp")
     private Integer exp;

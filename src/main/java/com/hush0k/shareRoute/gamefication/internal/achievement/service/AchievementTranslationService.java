@@ -8,7 +8,9 @@ import com.hush0k.shareRoute.gamefication.internal.achievement.exceptions.Achiev
 import com.hush0k.shareRoute.gamefication.internal.achievement.mapper.AchievementTranslationMapper;
 import com.hush0k.shareRoute.gamefication.internal.achievement.repository.AchievementTranslationRepository;
 import lombok.RequiredArgsConstructor;
+import com.hush0k.shareRoute.common.global_dto.PageResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,28 @@ public class AchievementTranslationService {
         return achievementTranslationMapper.toAchievementTranslationResponseDto(achievementsTranslationRepository.save(translation));
     }
 
+    public AchievementTranslationResponseDto updateAchievementTranslation(UUID achievementId, String languageCode, AchievementTranslationUpdateDto dto){
+        AchievementTranslation translation = getTranslation(achievementId, languageCode);
+        achievementTranslationMapper.updateAchievementTranslationFromDto(dto, translation);
+        return achievementTranslationMapper.toAchievementTranslationResponseDto(achievementsTranslationRepository.save(translation));
+    }
+
+    public void deleteAchievementTranslation(UUID achievementId, String languageCode){
+        achievementsTranslationRepository.delete(getTranslation(achievementId, languageCode));
+    }
+
+    @Transactional(readOnly = true)
+    public AchievementTranslationResponseDto getAchievementTranslation(UUID achievementId, String languageCode){
+        return achievementTranslationMapper.toAchievementTranslationResponseDto(getTranslation(achievementId, languageCode));
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<AchievementTranslationResponseDto> getAchievementTranslations(UUID achievementId, Pageable pageable){
+        return PageResponse.of(
+                achievementsTranslationRepository.findAllByAchievementId(achievementId, pageable)
+                        .map(achievementTranslationMapper::toAchievementTranslationResponseDto));
+    }
+
     @Transactional(readOnly = true)
     public AchievementTranslation getByIdAndLanguage(UUID achievementId, String languageCode){
         return
@@ -57,5 +81,13 @@ public class AchievementTranslationService {
                 }
         );
     }
-}
 
+    private AchievementTranslation getTranslation(UUID achievementId, String languageCode){
+        return achievementsTranslationRepository.findOneByAchievementIdAndLanguageCode(achievementId, languageCode).orElseThrow(
+                () -> {
+                    log.warn("Could not find translation for achievement {} and language {}", achievementId, languageCode);
+                    return new AchievementTranslationNotFoundException(achievementId, languageCode);
+                }
+        );
+    }
+}

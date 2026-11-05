@@ -87,8 +87,8 @@ public class AchievementService {
     public AchievementFullResponseDto getAchievementById(UUID achievementId, String languageCode){
         Achievement achievement = getAchievement(achievementId);
         AchievementTranslation translation = achievementTranslationService.getByIdAndLanguage(achievementId, languageCode);
-        List<AchievementConditionBriefDto> conditions =
-                achievementConditionMapper.toBriefDto(achievementConditionService.getConditionsByAchievementId(achievementId));
+        AchievementConditionBriefDto condition =
+                achievementConditionMapper.toAchievementConditionBriefDto(achievementConditionService.getConditionByAchievementId(achievementId));
 
         if(translation == null){
             translation = achievementTranslationService.getByIdAndLanguage(achievementId, DEFAULT_LANGUAGE);
@@ -101,7 +101,7 @@ public class AchievementService {
                 .exp(achievement.getExp())
                 .level(achievement.getLevel())
                 .image(achievement.getImage())
-                .conditions(conditions)
+                .condition(condition)
                 .build();
     }
 

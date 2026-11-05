@@ -8,4 +8,8 @@ public class AchievementTranslationNotFoundException extends MessageKeyException
     public AchievementTranslationNotFoundException(UUID translationId) {
         super("achievement.translation.notFound", translationId);
     }
+
+    public AchievementTranslationNotFoundException(UUID achievementId, String languageCode) {
+        super("achievement.translation.notFoundByAchievementAndLanguage", achievementId, languageCode);
+    }
 }

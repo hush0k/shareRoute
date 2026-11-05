@@ -27,15 +27,13 @@ public class ArchetypeTranslationService {
     private final TranslationMapper  translationMapper;
 
     public void createArchetypeTranslation(TranslationCreateDto dto) {
-        ArchetypeTranslation newTranslation = translationRepository.save(translationMapper.toArchetypeTranslation(dto));
+        translationRepository.save(translationMapper.toArchetypeTranslation(dto));
     }
 
     public TranslationResponseDto updateArchetypeTranslation(TranslationUpdateDto dto, Long archetypeId, String languageCode) {
         ArchetypeTranslation archetypeTranslation = getArchetypeTranslationEntry(archetypeId, languageCode);
         translationMapper.updateTranslation(dto, archetypeTranslation);
-
-        ArchetypeTranslation updatedTranslation = translationRepository.save(archetypeTranslation);
-        return translationMapper.toTranslationResponseDto(updatedTranslation);
+        return translationMapper.toTranslationResponseDto(archetypeTranslation);
     }
 
     public void deleteArchetypeTranslation(Long archetypeId, String languageCode) {
@@ -51,20 +49,20 @@ public class ArchetypeTranslationService {
 
     @Transactional(readOnly = true)
     public PageResponse<TranslationResponseDto> getArchetypeTranslationsByLanguage(Pageable pageable, String language) {
-        Page<ArchetypeTranslation> translations = translationRepository.findAllByLang(language, pageable);
+        Page<ArchetypeTranslation> translations = translationRepository.findAllByLanguageCode(language, pageable);
         Page<TranslationResponseDto> mapped = translations.map(translationMapper::toTranslationResponseDto);
         return PageResponse.of(mapped);
     }
 
     @Transactional(readOnly = true)
     public PageResponse<TranslationResponseDto> getArchetypeTranslationsByArchetypeId(Long archetypeId, Pageable pageable) {
-        Page<ArchetypeTranslation> translations = translationRepository.findAllByArchId(archetypeId, pageable);
+        Page<ArchetypeTranslation> translations = translationRepository.findAllByArchetypeId(archetypeId, pageable);
         Page<TranslationResponseDto> mapped = translations.map(translationMapper::toTranslationResponseDto);
         return PageResponse.of(mapped);
     }
 
     @Transactional(readOnly = true)
-    public List<ArchetypeTranslation> getArchetypeTranslationsByLanguage(List<Long> archetypeIds,
+    public List<ArchetypeTranslation> getTranslationsForArchetypes(List<Long> archetypeIds,
                                                                                    String language) {
         return translationRepository.findAllByArchetypeIdInAndLanguageCode(archetypeIds, language);
     }

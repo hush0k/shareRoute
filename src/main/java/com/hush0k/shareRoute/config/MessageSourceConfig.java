@@ -16,9 +16,10 @@ public class MessageSourceConfig {
                 "classpath:messages/user-messages",
                 "classpath:messages/followers-messages",
                 "classpath:messages/auth-messages",
-                "classpath:messages/gamefication-messages"
+                "classpath:messages/gamefication-messages",
+                "classpath:messages/geography-messages",
+                "classpath:messages/post-messages"
                 // сюда будешь добавлять по мере появления модулей:
-                // "classpath:messages/post-messages",
                 // "classpath:messages/route-messages"
         );
         source.setDefaultEncoding("UTF-8");

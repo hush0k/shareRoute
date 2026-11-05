@@ -45,12 +45,16 @@ public class RandomIdentityGenerator {
                 .orElse(" ");
     }
 
+    private static final int NICKNAME_MAX_ATTEMPTS = 5;
+
     public String generateNickname() {
-        String nickname;
-        do {
-            nickname = RandomStringUtils.secure().nextAlphanumeric(10);
-        } while (userRepository.findByNickname(nickname).isPresent());
-        return nickname;
+        for (int i = 0; i < NICKNAME_MAX_ATTEMPTS; i++) {
+            String nickname = "user_" + RandomStringUtils.secure().nextAlphanumeric(10).toLowerCase();
+            if (!userRepository.existsByNickname(nickname)) {
+                return nickname;
+            }
+        }
+        throw new IllegalStateException("Failed to generate unique nickname after " + NICKNAME_MAX_ATTEMPTS + " attempts");
     }
 
 }

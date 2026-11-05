@@ -30,7 +30,7 @@ public class UserAchievement {
 
     @Builder.Default
     @Column(name = "completed_count")
-    private Integer completedCount = 0;
+    private Long completedCount = 0L;
 
     @Builder.Default
     @Column(name = "is_achieved")

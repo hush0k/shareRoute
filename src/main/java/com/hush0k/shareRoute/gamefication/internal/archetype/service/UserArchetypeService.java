@@ -78,7 +78,7 @@ public class UserArchetypeService {
                 .toList();
 
         List<ArchetypeTranslation> translations =
-                archetypeTranslationService.getArchetypeTranslationsByLanguage(archetypeIds, language);
+                archetypeTranslationService.getTranslationsForArchetypes(archetypeIds, language);
 
         Map<Long, ArchetypeTranslation> translationByArchetypeId = translations.stream()
                 .collect(Collectors.toMap(t -> t.getArchetype().getId(), t -> t));
@@ -89,7 +89,7 @@ public class UserArchetypeService {
 
         if (!missingIds.isEmpty()) {
             List<ArchetypeTranslation> fallbackTranslations =
-                    archetypeTranslationService.getArchetypeTranslationsByLanguage(missingIds, "en");
+                    archetypeTranslationService.getTranslationsForArchetypes(missingIds, "en");
             fallbackTranslations.forEach(t -> translationByArchetypeId.put(t.getArchetype().getId(), t));
         }
 
